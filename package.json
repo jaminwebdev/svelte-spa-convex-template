@@ -4,6 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"convex:dev": "npx convex dev",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -42,5 +43,9 @@
 		"typescript-eslint": "^8.20.0",
 		"vite": "^6.2.5",
 		"vitest": "^3.0.0"
+	},
+	"dependencies": {
+		"convex": "^1.23.0",
+		"convex-svelte": "^0.0.11"
 	}
 }
