@@ -11,6 +11,6 @@ export const get = query({
 export const createTask = mutation({
 	args: {},
 	handler: async (ctx) => {
-		await ctx.db.insert('tasks', { text: 'Example task', date: 'today' });
+		await ctx.db.insert('tasks', { text: 'Example task', date: 'today', isCompleted: false });
 	}
 });
