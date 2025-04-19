@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { createTask, getTasks } from '$lib/db';
 	import { useConvexClient } from 'convex-svelte';
+	import Button from '@/lib/components/ui/button/button.svelte';
+
 	const client = useConvexClient();
 
 	const query = getTasks();
@@ -23,5 +25,5 @@
 			</li>
 		{/each}
 	</ul>
-	<button onclick={handleClick}>Create task</button>
+	<Button onclick={handleClick}>Create Task</Button>
 {/if}
