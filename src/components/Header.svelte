@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { SignedIn, SignedOut, SignInButton, UserButton } from 'svelte-clerk/client';
+	import { SignedIn, UserButton } from 'svelte-clerk/client';
 	import { useClerkContext } from 'svelte-clerk/client';
+	import Redirect from './Redirect.svelte';
 
 	// Do not destructure context to avoid losing reactivity
 	const ctx = useClerkContext();
@@ -9,9 +10,6 @@
 </script>
 
 <header class="flex justify-end p-5">
-	<SignedOut>
-		<SignInButton />
-	</SignedOut>
 	<SignedIn>
 		<div class="flex gap-3">
 			<UserButton />
