@@ -20,6 +20,7 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
+		"@lucide/svelte": "^0.501.0",
 		"@playwright/test": "^1.49.1",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.16.0",
@@ -28,6 +29,8 @@
 		"@tailwindcss/vite": "^4.0.0",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.4",
+		"bits-ui": "^1.3.19",
+		"clsx": "^2.1.1",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",
@@ -38,7 +41,11 @@
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"tailwind-merge": "^3.2.0",
+		"tailwind-variants": "^1.0.0",
 		"tailwindcss": "^4.0.0",
+		"tailwindcss-animate": "^1.0.7",
+		"tw-animate-css": "^1.2.5",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
 		"vite": "^6.2.5",
@@ -47,6 +54,7 @@
 	"dependencies": {
 		"convex": "^1.23.0",
 		"convex-svelte": "^0.0.11",
+		"mode-watcher": "^0.5.1",
 		"svelte-clerk": "^0.11.2"
 	}
 }
