@@ -14,6 +14,8 @@
 	}
 
 	onMount(() => {
+		const storedTheme = localStorage.getItem('theme');
+		if (storedTheme) return switchTheme(storedTheme);
 		checkSystemColorPreference();
 	});
 
@@ -21,6 +23,7 @@
 		document.documentElement.className = '';
 		document.documentElement.classList.add(theme);
 		currentTheme = theme;
+		localStorage.setItem('theme', theme);
 	};
 </script>
 
