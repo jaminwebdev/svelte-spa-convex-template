@@ -6,10 +6,10 @@
 	import { Input } from '@/lib/components/ui/input/index';
 	import { CircleX } from '@lucide/svelte';
 
-	import { saveTask, getTasks, updateTask, removeTask } from '$lib/db';
+	import { saveTask, getTasks, updateTask, removeTask } from '$lib/db/tasks';
 	import { useConvexClient } from 'convex-svelte';
 	import { z } from 'zod';
-	import { toasts } from '@/lib/toasts';
+	import { toasts } from '@/lib/utils/toasts';
 
 	let taskBody = $state('');
 	// client has to be initialized within a component since

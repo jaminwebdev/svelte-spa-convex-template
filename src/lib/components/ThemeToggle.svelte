@@ -6,7 +6,7 @@
 	import { Button, buttonVariants } from '@/lib/components/ui/button/index.js';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
 	import { Label } from '@/lib/components/ui/label';
-	import { themes, type ThemeOptions } from '@/lib/themes';
+	import { themes, type ThemeOptions } from '@/lib/utils/themes';
 
 	let currentTheme = $state(themes[0]);
 	let isOpen = $state(false);

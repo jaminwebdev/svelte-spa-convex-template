@@ -3,8 +3,8 @@ import { api } from '@/convex/_generated/api';
 import type { Doc } from '@/convex/_generated/dataModel';
 import { useQuery } from 'convex-svelte';
 
-import { taskBodySchema } from '@/lib/runtimeValidators';
-import { toasts } from '@/lib/toasts';
+import { taskBodySchema } from '@/lib/utils/runtimeValidators';
+import { toasts } from '@/lib/utils/toasts';
 
 export const getTasks = () => useQuery(api.tasks.get, {});
 

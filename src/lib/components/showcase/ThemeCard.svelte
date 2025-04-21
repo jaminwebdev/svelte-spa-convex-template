@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Card from '@/lib/components/ui/card/index';
 	import { ScrollArea } from '../ui/scroll-area/index';
-	import { themes, type ThemeOptions } from '@/lib/themes';
+	import { themes, type ThemeOptions } from '@/lib/utils/themes';
 	import { Sun, Moon } from '@lucide/svelte';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
 	import Label from '../ui/label/label.svelte';
