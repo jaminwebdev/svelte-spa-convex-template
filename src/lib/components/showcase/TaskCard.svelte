@@ -4,42 +4,27 @@
 	import { Checkbox } from '@/lib/components/ui/checkbox/index.js';
 	import { Label } from '@/lib/components/ui/label/index.js';
 	import { Input } from '@/lib/components/ui/input/index';
-	import { toasts } from '@/lib/toasts';
-
-	import { createTask, getTasks, updateTask, deleteTask } from '$lib/db';
-	import { useConvexClient } from 'convex-svelte';
-	import type { Doc } from '@/convex/_generated/dataModel';
-	import { z } from 'zod';
-	import { taskBodySchema } from '@/lib/runtimeValidators';
-
 	import { CircleX } from '@lucide/svelte';
 
+	import { saveTask, getTasks, updateTask, removeTask } from '$lib/db';
+	import { useConvexClient } from 'convex-svelte';
+	import { z } from 'zod';
+	import { toasts } from '@/lib/toasts';
+
 	let taskBody = $state('');
-
+	// client has to be initialized within a component since
+	// it calls getContext internally, which can only be called in a component
 	const client = useConvexClient();
-	const query = getTasks();
 
-	const saveTask = async () => {
+	const query = getTasks();
+	const createTask = async () => {
 		try {
-			taskBodySchema.parse(taskBody);
-			await createTask(client, taskBody);
-			toasts.taskCreated(taskBody);
-			taskBody = '';
+			await saveTask(client, taskBody);
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				return toasts.error(error.errors[0].message);
 			}
 			toasts.error('Something went wrong creating your task');
-		}
-	};
-
-	const updateTaskStatus = (task: Doc<'tasks'>) => updateTask(client, task);
-	const removeTask = async (task: Doc<'tasks'>) => {
-		try {
-			await deleteTask(client, task);
-			toasts.taskDeleted();
-		} catch (error) {
-			toasts.error('Something went wrong deleting your task');
 		}
 	};
 </script>
@@ -52,7 +37,7 @@
 	<Card.Content>
 		<div class="mb-6 grid gap-4">
 			<Input type="text" placeholder="Enter task..." class="max-w-xs" bind:value={taskBody} />
-			<Button onclick={saveTask} disabled={taskBody.length < 1}>Create Task</Button>
+			<Button onclick={createTask} disabled={taskBody.length < 1}>Create Task</Button>
 		</div>
 		{#if query.isLoading}
 			Loading...
@@ -66,12 +51,12 @@
 							<Checkbox
 								id={task._id}
 								checked={task.isCompleted}
-								onCheckedChange={() => updateTaskStatus(task)}
+								onCheckedChange={() => updateTask(client, task)}
 								aria-labelledby="terms-label"
 							/>
 							{task.text}
 						</Label>
-						<Button variant="ghost" onclick={() => removeTask(task)}>
+						<Button variant="ghost" onclick={() => removeTask(client, task)}>
 							<CircleX />
 						</Button>
 					</li>
