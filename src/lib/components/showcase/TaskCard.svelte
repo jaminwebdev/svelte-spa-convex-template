@@ -20,6 +20,7 @@
 	const createTask = async () => {
 		try {
 			await saveTask(client, taskBody);
+			taskBody = '';
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				return toasts.error(error.errors[0].message);
