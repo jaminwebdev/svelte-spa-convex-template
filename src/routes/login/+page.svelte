@@ -7,5 +7,5 @@
 	<SignIn />
 </SignedOut>
 <SignedIn>
-	<Redirect route="/" />
+	<Redirect />
 </SignedIn>

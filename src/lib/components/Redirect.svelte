@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	let { route } = $props();
+	type Props = {
+		route?: string;
+	};
+
+	let { route }: Props = $props();
 
 	$effect(() => {
 		if (route) {
-			goto(`#${route}`);
+			goto(`#/${route}`);
+			return;
 		}
+		goto('#/');
 	});
 </script>

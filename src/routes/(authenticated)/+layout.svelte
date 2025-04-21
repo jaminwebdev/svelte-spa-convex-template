@@ -10,5 +10,5 @@
 	{@render children()}
 </SignedIn>
 <SignedOut>
-	<Redirect route="/login" />
+	<Redirect route="login" />
 </SignedOut>
