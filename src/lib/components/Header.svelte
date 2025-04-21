@@ -8,10 +8,10 @@
 <div class="border-b-primary/50 border-1">
 	<Container classes="max-w-[88rem]">
 		<header class=" flex justify-between p-5">
-			<div class="flex items-center gap-1">
+			<a href="/#" class="flex items-center gap-1">
 				<Boxes size="32" />
 				<span class="text-2xl font-black">Site Logo</span>
-			</div>
+			</a>
 			<SignedIn>
 				<div class="flex items-center gap-6">
 					<ThemeToggle />
