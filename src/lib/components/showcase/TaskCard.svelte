@@ -1,31 +1,35 @@
 <script lang="ts">
+	import * as Card from '@/lib/components/ui/card/index';
 	import { Button } from '@/lib/components/ui/button/index.js';
 	import { Checkbox } from '@/lib/components/ui/checkbox/index.js';
 	import { Label } from '@/lib/components/ui/label/index.js';
-	import * as Card from '@/lib/components/ui/card/index';
 	import { Input } from '@/lib/components/ui/input/index';
-	import { toast } from 'svelte-sonner';
-
-	import { createTask, getTasks, updateTask, deleteTask } from '$lib/db';
-
-	import { useConvexClient } from 'convex-svelte';
-	import type { Doc } from '@/convex/_generated/dataModel';
-	import { CircleX } from '@lucide/svelte';
 	import { toasts } from '@/lib/toasts';
 
-	let todoBody = $state('');
+	import { createTask, getTasks, updateTask, deleteTask } from '$lib/db';
+	import { useConvexClient } from 'convex-svelte';
+	import type { Doc } from '@/convex/_generated/dataModel';
+	import { z } from 'zod';
+	import { taskBodySchema } from '@/lib/runtimeValidators';
+
+	import { CircleX } from '@lucide/svelte';
+
+	let taskBody = $state('');
 
 	const client = useConvexClient();
-
 	const query = getTasks();
 
-	const saveTodo = async () => {
+	const saveTask = async () => {
 		try {
-			await createTask(client, todoBody);
-			toasts.taskCreated(todoBody);
-			todoBody = '';
+			taskBodySchema.parse(taskBody);
+			await createTask(client, taskBody);
+			toasts.taskCreated(taskBody);
+			taskBody = '';
 		} catch (error) {
-			toasts.error('Something went wrong creating your todo');
+			if (error instanceof z.ZodError) {
+				return toasts.error(error.errors[0].message);
+			}
+			toasts.error('Something went wrong creating your task');
 		}
 	};
 
@@ -35,20 +39,20 @@
 			await deleteTask(client, task);
 			toasts.taskDeleted();
 		} catch (error) {
-			toasts.error('Something went wrong deleting your todo');
+			toasts.error('Something went wrong deleting your task');
 		}
 	};
 </script>
 
 <Card.Root>
 	<Card.Header>
-		<Card.Title>Todos</Card.Title>
-		<Card.Description>Manage your todo list</Card.Description>
+		<Card.Title>Tasks</Card.Title>
+		<Card.Description>Manage your tasklist</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<div class="mb-6 grid gap-4">
-			<Input type="text" placeholder="Enter todo..." class="max-w-xs" bind:value={todoBody} />
-			<Button onclick={saveTodo}>Create Task</Button>
+			<Input type="text" placeholder="Enter task..." class="max-w-xs" bind:value={taskBody} />
+			<Button onclick={saveTask} disabled={taskBody.length < 1}>Create Task</Button>
 		</div>
 		{#if query.isLoading}
 			Loading...
