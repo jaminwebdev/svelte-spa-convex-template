@@ -6,10 +6,10 @@ import { useQuery } from 'convex-svelte';
 export const getTasks = () => useQuery(api.tasks.get, {});
 
 export const createTask = (client: ConvexClient, body: string) =>
-	client.mutation(api.tasks.createTask, { body });
+	client.mutation(api.tasks.create, { body });
 
 export const updateTask = (client: ConvexClient, task: Doc<'tasks'>) =>
-	client.mutation(api.tasks.updateTask, { id: task._id, isCompleted: !task.isCompleted });
+	client.mutation(api.tasks.update, { id: task._id, isCompleted: !task.isCompleted });
 
 export const deleteTask = (client: ConvexClient, task: Doc<'tasks'>) =>
-	client.mutation(api.tasks.deleteTask, { id: task._id });
+	client.mutation(api.tasks.remove, { id: task._id });

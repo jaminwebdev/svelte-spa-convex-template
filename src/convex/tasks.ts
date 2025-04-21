@@ -8,14 +8,14 @@ export const get = query({
 	}
 });
 
-export const createTask = mutation({
+export const create = mutation({
 	args: { body: v.string() },
 	handler: async (ctx, args) => {
 		await ctx.db.insert('tasks', { text: args.body, date: 'today', isCompleted: false });
 	}
 });
 
-export const updateTask = mutation({
+export const update = mutation({
 	args: { id: v.id('tasks'), isCompleted: v.boolean() },
 	handler: async (ctx, args) => {
 		const { id, isCompleted } = args;
@@ -23,7 +23,7 @@ export const updateTask = mutation({
 	}
 });
 
-export const deleteTask = mutation({
+export const remove = mutation({
 	args: { id: v.id('tasks') },
 	handler: async (ctx, args) => {
 		const { id } = args;
