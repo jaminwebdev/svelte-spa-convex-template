@@ -20,7 +20,6 @@
 			<li>
 				{task.isCompleted ? '☑' : '☐'}
 				<span>{task.text}</span>
-				<span>assigned by {task.assigner}</span>
 				<span>Date: {task.date || 'unknown'}</span>
 			</li>
 		{/each}
