@@ -1,34 +1,38 @@
 <script lang="ts">
-	import { Sun, Moon } from '@lucide/svelte';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-
-	import { Button } from '$lib/components/ui/button/index.js';
 	import { onMount } from 'svelte';
+
+	import { Sun, Moon } from '@lucide/svelte';
+	import * as Dialog from '@/lib/components/ui/dialog/index.js';
+	import { Button, buttonVariants } from '@/lib/components/ui/button/index.js';
+	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
+	import { Label } from '@/lib/components/ui/label';
 	import { themes, type ThemeOptions } from '@/lib/themes';
 
 	let currentTheme = $state(themes[0]);
-
-	function checkSystemColorPreference() {
-		const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		currentTheme = prefersDarkScheme ? 'dark' : 'light';
-	}
+	let isOpen = $state(false);
 
 	onMount(() => {
 		const storedTheme = localStorage.getItem('theme');
-		if (storedTheme) return switchTheme(storedTheme);
+		if (storedTheme) return handleThemeChange(storedTheme);
 		checkSystemColorPreference();
 	});
 
-	const switchTheme = (theme: ThemeOptions) => {
+	const handleThemeChange = (theme: ThemeOptions) => {
+		currentTheme = theme;
 		document.documentElement.className = '';
 		document.documentElement.classList.add(theme);
-		currentTheme = theme;
 		localStorage.setItem('theme', theme);
+		isOpen = false;
+	};
+
+	const checkSystemColorPreference = () => {
+		const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		currentTheme = prefersDarkScheme ? 'dark' : 'light';
 	};
 </script>
 
-<DropdownMenu.Root>
-	<DropdownMenu.Trigger>
+<Dialog.Root bind:open={isOpen}>
+	<Dialog.Trigger class={buttonVariants({ variant: 'outline' })}>
 		<Button variant="outline" size="icon" class="bg-muted rounded-full">
 			{#if currentTheme.includes('dark')}
 				<Moon
@@ -41,19 +45,22 @@
 			{/if}
 			<span class="sr-only">Toggle theme</span>
 		</Button>
-	</DropdownMenu.Trigger>
-	<DropdownMenu.Content align="end">
-		{#each themes as theme}
-			<DropdownMenu.Item onSelect={() => switchTheme(theme)}>
-				<div class="flex cursor-pointer items-center gap-2">
-					{#if theme.includes('light')}
-						<Sun />
-					{:else}
-						<Moon />
-					{/if}
-					{theme}
+	</Dialog.Trigger>
+	<Dialog.Content class="max-h-[75vh] overflow-y-scroll">
+		<RadioGroup.Root value={currentTheme} onValueChange={handleThemeChange}>
+			{#each themes as theme}
+				<div class="flex items-center space-x-2">
+					<RadioGroup.Item value={theme} id={theme} />
+					<Label for={theme} class="flex items-center gap-2">
+						{#if theme.includes('light')}
+							<Sun />
+						{:else}
+							<Moon />
+						{/if}
+						{theme}
+					</Label>
 				</div>
-			</DropdownMenu.Item>
-		{/each}
-	</DropdownMenu.Content>
-</DropdownMenu.Root>
+			{/each}
+		</RadioGroup.Root>
+	</Dialog.Content>
+</Dialog.Root>
