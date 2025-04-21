@@ -1,28 +1,22 @@
 <script lang="ts">
-	import { createTask, getTasks } from '$lib/db';
-	import { useConvexClient } from 'convex-svelte';
-	import Button from '@/lib/components/ui/button/button.svelte';
-
-	const client = useConvexClient();
-
-	const query = getTasks();
-
-	const handleClick = () => createTask(client);
+	import Container from '@/lib/components/Container.svelte';
+	import ButtonsExample from '@/lib/components/showcase/ButtonsExample.svelte';
+	import ThemeCard from '@/lib/components/showcase/ThemeCard.svelte';
+	import NotificationCard from '@/lib/components/showcase/NotificationCard.svelte';
+	import AccountCard from '@/lib/components/showcase/AccountCard.svelte';
+	import TaskCard from '@/lib/components/showcase/TaskCard.svelte';
 </script>
 
-{#if query.isLoading}
-	Loading...
-{:else if query.error}
-	failed to load: {query.error.toString()}
-{:else}
-	<ul>
-		{#each query.data as task}
-			<li>
-				{task.isCompleted ? '☑' : '☐'}
-				<span>{task.text}</span>
-				<span>Date: {task.date || 'unknown'}</span>
-			</li>
-		{/each}
-	</ul>
-	<Button onclick={handleClick}>Create Task</Button>
-{/if}
+<main class="grid gap-6 py-10">
+	<Container classes="grid grid-cols-1 md:grid-cols-3 gap-6">
+		<ThemeCard />
+		<TaskCard />
+		<NotificationCard />
+	</Container>
+	<div class="flex justify-center">
+		<ButtonsExample />
+	</div>
+	<Container classes="grid grid-cols-1 md:grid-cols-3 gap-6">
+		<AccountCard />
+	</Container>
+</main>
