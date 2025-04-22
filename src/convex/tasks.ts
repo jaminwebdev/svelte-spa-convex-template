@@ -1,7 +1,7 @@
 import { query, mutation } from './_generated/server';
 import { v } from 'convex/values';
-import { DatabaseReader } from './_generated/server';
-import { Id } from './_generated/dataModel';
+import type { DatabaseReader } from './_generated/server';
+import type { Id } from './_generated/dataModel';
 
 async function authorizeTaskAccess(
 	ctx: { db: DatabaseReader },
