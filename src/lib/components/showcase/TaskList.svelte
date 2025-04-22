@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { useQuery } from 'convex-svelte';
 	import TaskItem from './TaskItem.svelte';
-	import type { Doc } from '@/convex/_generated/dataModel';
-	import { getTasks } from '$lib/db/tasks';
+	import { api } from '@/convex/_generated/api';
 
 	const { user_id } = $props<{ user_id: string }>();
 
-	const query = $derived(getTasks(user_id));
+	const query = $derived(useQuery(api.tasks.get, { user_id }));
 </script>
 
 {#if query.isLoading}
