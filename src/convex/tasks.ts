@@ -47,3 +47,11 @@ export const remove = mutation({
 		await ctx.db.delete(id);
 	}
 });
+
+export const restore = mutation({
+	args: { task: v.object({ taskBody: v.string(), isCompleted: v.boolean(), user_id: v.string() }) },
+	handler: async (ctx, args) => {
+		const { task } = args;
+		await ctx.db.insert('tasks', task);
+	}
+});
