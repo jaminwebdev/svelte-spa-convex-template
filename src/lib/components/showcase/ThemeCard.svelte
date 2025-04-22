@@ -1,10 +1,10 @@
 <script lang="ts">
 	import * as Card from '@/lib/components/ui/card/index';
-	import { ScrollArea } from '../ui/scroll-area/index';
+	import { ScrollArea } from '@/lib/components/ui/scroll-area/index';
 	import { themes, type ThemeOptions } from '@/lib/utils/themes';
 	import { Sun, Moon } from '@lucide/svelte';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
-	import Label from '../ui/label/label.svelte';
+	import Label from '@/lib/components/ui/label/label.svelte';
 	import { onMount } from 'svelte';
 
 	let currentTheme = $state(themes[0]);
