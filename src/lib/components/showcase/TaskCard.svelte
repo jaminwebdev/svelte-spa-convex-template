@@ -10,16 +10,24 @@
 	import { useConvexClient } from 'convex-svelte';
 	import { z } from 'zod';
 	import { toasts } from '@/lib/utils/toasts';
+	import { useClerkContext } from 'svelte-clerk/client';
+	import { cn } from '@/lib/utils';
 
 	let taskBody = $state('');
 	// client has to be initialized within a component since
 	// it calls getContext internally, which can only be called in a component
 	const client = useConvexClient();
 
-	const query = getTasks();
+	// Do not destructure context to avoid losing reactivity
+	const ctx = useClerkContext();
+
+	const user_id = $derived(ctx.auth.userId);
+
+	const query = $derived(getTasks(user_id as string));
+
 	const createTask = async () => {
 		try {
-			await saveTask(client, taskBody);
+			await saveTask({ client, taskBody, user_id: user_id as string });
 			taskBody = '';
 		} catch (error) {
 			if (error instanceof z.ZodError) {
@@ -52,12 +60,15 @@
 							<Checkbox
 								id={task._id}
 								checked={task.isCompleted}
-								onCheckedChange={() => updateTask(client, task)}
+								onCheckedChange={() => updateTask({ client, task, user_id: user_id as string })}
 								aria-labelledby="terms-label"
 							/>
-							{task.text}
+							<span class={cn(task.isCompleted ? 'line-through' : '')}>{task.taskBody}</span>
 						</Label>
-						<Button variant="ghost" onclick={() => removeTask(client, task)}>
+						<Button
+							variant="ghost"
+							onclick={() => removeTask({ client, task, user_id: user_id as string })}
+						>
 							<CircleX />
 						</Button>
 					</li>
