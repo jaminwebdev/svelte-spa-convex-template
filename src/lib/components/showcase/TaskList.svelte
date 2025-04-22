@@ -20,7 +20,7 @@
 {:else if query.error}
 	failed to load: {query.error.toString()}
 {:else}
-	<ul class="grid gap-3">
+	<ul class="grid gap-1">
 		{#each query.data as task}
 			<TaskItem {task} {user_id} />
 		{/each}
