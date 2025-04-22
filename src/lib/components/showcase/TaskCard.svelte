@@ -14,6 +14,7 @@
 	import { cn } from '@/lib/utils';
 
 	let taskBody = $state('');
+	let mutationLoading = $state(false);
 	// client has to be initialized within a component since
 	// it calls getContext internally, which can only be called in a component
 	const client = useConvexClient();
@@ -27,8 +28,10 @@
 
 	const createTask = async () => {
 		try {
+			mutationLoading = true;
 			await saveTask({ client, taskBody, user_id: user_id as string });
 			taskBody = '';
+			mutationLoading = false;
 		} catch (error) {
 			if (error instanceof z.ZodError) {
 				return toasts.error(error.errors[0].message);
@@ -46,7 +49,9 @@
 	<Card.Content>
 		<div class="mb-6 grid gap-4">
 			<Input type="text" placeholder="Enter task..." class="max-w-xs" bind:value={taskBody} />
-			<Button onclick={createTask} disabled={taskBody.length < 1}>Create Task</Button>
+			<Button onclick={createTask} disabled={taskBody.length < 1 || mutationLoading}
+				>Create Task</Button
+			>
 		</div>
 		{#if query.isLoading}
 			Loading...
