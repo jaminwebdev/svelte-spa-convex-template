@@ -8,7 +8,6 @@
 	import { cn } from '@/lib/utils';
 	import type { Doc } from '@/convex/_generated/dataModel';
 	import { toasts } from '@/lib/utils/toasts';
-	import { toast } from 'svelte-sonner';
 
 	const client = useConvexClient();
 
@@ -23,20 +22,7 @@
 	const removeTask = async () => {
 		try {
 			await client.mutation(api.tasks.remove, { id: task._id, user_id });
-			toast('Task deleted', {
-				action: {
-					label: 'Undo',
-					onClick: () => {
-						client.mutation(api.tasks.restore, {
-							task: {
-								taskBody: task.taskBody,
-								isCompleted: task.isCompleted,
-								user_id
-							}
-						});
-					}
-				}
-			});
+			toasts.taskDeleted(client, task, user_id);
 		} catch (error) {
 			toasts.error(
 				error instanceof Error ? error.message : 'Something went wrong deleting your task'
